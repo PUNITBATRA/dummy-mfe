@@ -32,6 +32,13 @@ container app don't need mount function.
 while using mount in container we can't use function directly so use it with useRef etc (as in components/MarketingApp)
 instead of specific module shared array/object we can use directly from pkg.json.
 
+Deployment ->
+want to deploy each microfrontend independently including container.
+location of child app remoteEntry.js files must be known at build time.
+many FE solution assume we are deploying single project but we need to handle multiple. (need ci/cd)
+currently remoteEntry.js file name is fixed need to think about caching issues.
+
+for webpack.prod file in container we require index.html but not for REMOTE apps. So html webpack plugin we can move in commmon for container app.
 ___________
 
 https://micro-frontends.org/
