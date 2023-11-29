@@ -19,6 +19,14 @@ if instead of shared: ['faker'] we use object with add singleton true for loadin
 We are using id in index.html to render the app in REMOTE and same ids in HOST but if teams are in isolation it's not possible so in webpack config directly use bootstrap instead of index and use mount function kinda import export to solve that issue. Also for running in isolation we can add the condition.
 id in index.html and webpack config name should not be same like cart, products etc becoz it creates that as var in remoteEntry file and we have same name id also in index.html hence error.
 
+---
+Microfrontend requirement ->
+- zero coupling between child projects (no importing of function/obj/classes etc, no shared state, shared module is fine)
+- near zero coupling between container and child projects (container shouldn't assume child is using xyz framework, any necessary comm done with callbacks/events like signup to login text change etc.)
+- css from one project shouldn't affect another.
+- version control shouldn't affect overall project (some people want to use monorepo, some want in seperate repo)
+- container should be able to decide to always use the latest version of microfrontend/specify a specific version (container will always use the latest version of child app it doesn't require redeploy of container, container can specify exactly what version of child it wanna use it require redeploy).
+
 ___________
 
 https://micro-frontends.org/
