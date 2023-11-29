@@ -13,6 +13,12 @@ index.html file of remote apps is not used while production only host app index.
 
 Shared modules ->
 container fetches remoteEntryjs file from both products & cart and notices both require x pkg so container can load only 1 copy from either of them and single copy is made available to both products & cart. so use 'shared' but then isolated apps won't work becoz in index.js we are importing so async issue same as bootstrap.js.
+if different versions of module used then even after shared both will load seperately. (major or etc basically module federation plugin compares as per ^/~ used in pkg.json)
+if instead of shared: ['faker'] we use object with add singleton true for loading 1 copy of module only no matter what. (show warning if different version specified)
+
+We are using id in index.html to render the app in REMOTE and same ids in HOST but if teams are in isolation it's not possible so in webpack config directly use bootstrap instead of index and use mount function kinda import export to solve that issue. Also for running in isolation we can add the condition.
+id in index.html and webpack config name should not be same like cart, products etc becoz it creates that as var in remoteEntry file and we have same name id also in index.html hence error.
+
 ___________
 
 https://micro-frontends.org/

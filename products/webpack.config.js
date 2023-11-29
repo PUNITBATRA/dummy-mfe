@@ -11,11 +11,11 @@ module.exports = {
         name: 'products',
         filename: 'remoteEntry.js',
         exposes: {
-          './ProductsIndex': './src/index',
+          './ProductsIndex': './src/bootstrap',
         },
         shared: {
           faker: {
-            singleton: 'true'
+            singleton: true
           }
         }
       }),

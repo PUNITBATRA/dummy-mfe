@@ -1,10 +1,18 @@
 import faker from 'faker';
+const mount = (el) => {
+  let products = '';
 
-let products = '';
-
-for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 5; i++) {
   const name = faker.commerce.productName();
   products += `<div>${name}</div>`;
-}
+  }
 
-document.querySelector('#dev-products').innerHTML = products;
+  el.innerHTML = products;
+  // ReactDOM.render(<App/>, el)
+}
+// running in isolation and in development
+if(process.env.NODE_ENV==='development'){
+  const el=document.querySelector('#dev-products');
+  if(el) mount(el);
+}
+export {mount}
