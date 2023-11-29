@@ -9,7 +9,10 @@ HTML-Webpack-plugin -> simplify process of serving html files to webpack bundles
 Integration steps->
 Take 1 app as HOST & 1 as REMOTE. In remote decides modules u want to expose. Setup MF plugin to expose those files. In HOST decides which file u want to get from REMOTE. Setup MF to fetch those files.In Host refactor entrypoint to load async and import whatever files u need from remote. 
 
+index.html file of remote apps is not used while production only host app index.html file is used.
 
+Shared modules ->
+container fetches remoteEntryjs file from both products & cart and notices both require x pkg so container can load only 1 copy from either of them and single copy is made available to both products & cart. so use 'shared' but then isolated apps won't work becoz in index.js we are importing so async issue same as bootstrap.js.
 ___________
 
 https://micro-frontends.org/
