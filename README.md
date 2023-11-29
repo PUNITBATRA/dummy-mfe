@@ -27,6 +27,11 @@ Microfrontend requirement ->
 - version control shouldn't affect overall project (some people want to use monorepo, some want in seperate repo)
 - container should be able to decide to always use the latest version of microfrontend/specify a specific version (container will always use the latest version of child app it doesn't require redeploy of container, container can specify exactly what version of child it wanna use it require redeploy).
 
+devConfig/prodConfig has more priority than common config.
+container app don't need mount function.
+while using mount in container we can't use function directly so use it with useRef etc (as in components/MarketingApp)
+instead of specific module shared array/object we can use directly from pkg.json.
+
 ___________
 
 https://micro-frontends.org/
