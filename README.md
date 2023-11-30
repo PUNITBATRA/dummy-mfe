@@ -19,7 +19,7 @@ if instead of shared: ['faker'] we use object with add singleton true for loadin
 We are using id in index.html to render the app in REMOTE and same ids in HOST but if teams are in isolation it's not possible so in webpack config directly use bootstrap instead of index and use mount function kinda import export to solve that issue. Also for running in isolation we can add the condition.
 id in index.html and webpack config name should not be same like cart, products etc becoz it creates that as var in remoteEntry file and we have same name id also in index.html hence error.
 
----
+
 Microfrontend requirement ->
 - zero coupling between child projects (no importing of function/obj/classes etc, no shared state, shared module is fine)
 - near zero coupling between container and child projects (container shouldn't assume child is using xyz framework, any necessary comm done with callbacks/events like signup to login text change etc.)
@@ -38,7 +38,18 @@ location of child app remoteEntry.js files must be known at build time.
 many FE solution assume we are deploying single project but we need to handle multiple. (need ci/cd)
 currently remoteEntry.js file name is fixed need to think about caching issues.
 
-for webpack.prod file in container we require index.html but not for REMOTE apps. So html webpack plugin we can move in commmon for container app.
+for webpack.prod file in container we require index.html but not for REMOTE apps. So html webpack plugin we can move in webpack.commmon for container app.
+After deployment if it's not working check the main.js file path and give appropiate public path in container & remote apps webpack.prod config.
+Use Invalidation in yml files becoz if content changes cloudfront can't track as only name change file it can track.
+create yml file for HOST & each REMOTE.
+
+
+
+
+
+
+
+
 ___________
 
 https://micro-frontends.org/
