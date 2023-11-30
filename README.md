@@ -69,6 +69,9 @@ History is (object to get & set the current path user is visiting) and router is
 - For container to child comm return from mount of child apps.
 - For remote apps in isolation we will use browserHistory.
 
+- publicPath is useful in dev as well like in auth app browser finding main.js at localhost:8082/auth/main.js but it's at localhost:8082/main.js so in isolation it works but now if we do so by container app and it require auth app and it loads remoteEntry.js file and now try to fetch main directly at same 8080 port means localhost:8080/main.js not at 8082/main.js so to fix this give localhost:8082/ complete path as public path. This wasn't issue in marketing app becoz IF PUBLIC PATH is never set scripts are loaded from the relative remoteEntry file but as and when nested routes and all come we require this. 
+
+- We need to pass initialPath in history becoz otherwise it will think everytime it's at / and reroute to specific page will be done in second click and on specific route if we refresh it will start from /. So initialPath should be pass from mount and used in memoryHistory in remoteApps. 
 ___________
 
 https://micro-frontends.org/
