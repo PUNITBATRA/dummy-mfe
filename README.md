@@ -43,6 +43,14 @@ After deployment if it's not working check the main.js file path and give approp
 Use Invalidation in yml files becoz if content changes cloudfront can't track as only name change file it can track.
 create yml file for HOST & each REMOTE.
 
+CSS Issue might occur in production.
+Let's say user is in remote app 1 now navigates to remote app 2 it has css h1 green color and now navigate back to remote app 1 so it will also have green h1. So use css scoping.
+CSS Scoping ->
+if custom css we are writing (use a css in js library, namespace the css like .auth h1 etc.)
+if css coming from a library (use a library that does css in js, manually build css lib and apply namespacing) 
+
+- if two different projects using same css in js library then classname collison can occur. Like css in js library generates cls name as makestyles-herocontent-2 and in production to optimise long name it's like jss1, jss2 etc. hence collison in production. So use generateClassName. So, check in docs also but it's valid mostly for all and specifically to MUI.
+
 
 
 
