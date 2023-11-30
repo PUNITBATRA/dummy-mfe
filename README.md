@@ -62,9 +62,12 @@ Routing ->
 History is (object to get & set the current path user is visiting) and router is (shows different content based on path). History is of 3 types. Browser History (everything after domain like xyz.com/abc/def), hash history (everything after hash like xyz.com#/abc/def), memory/abstract history (keep track of current path in memory)
 - Common way is to use browser history in HOST app and memory history in REMOTE apps. If used browser history in both remote & host and then the url changes at same time so race condition occur and it might cause some issues.
 
+- User clicks link governed by container (browser history) then communicate down to marketing then marketing memory history should update it's current path AND if User clicks link governed by marketing (memory history) then communicate up to container then container browser history should update it's current path (it's generic comm way)
 
+- container have onNavigation props and marketing is using it now clicking on marketing should update memory history current path to /marketing and call onNavigate to update container that path is changed. So for child to container comm onNavigation prop is used.
 
-
+- For container to child comm return from mount of child apps.
+- For remote apps in isolation we will use browserHistory.
 
 ___________
 
