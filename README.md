@@ -51,8 +51,16 @@ if css coming from a library (use a library that does css in js, manually build 
 
 - if two different projects using same css in js library then classname collison can occur. Like css in js library generates cls name as makestyles-herocontent-2 and in production to optimise long name it's like jss1, jss2 etc. hence collison in production. So use generateClassName. So, check in docs also but it's valid mostly for all and specifically to MUI.
 
+Routing ->
+- both host and remote apps need routing features (user can navigate to differnet subapps using routing logic built in container, user can navigate in subapp using routing logic build in subapp, not all subapp require routing)
+- subapps might need to add in new pages/routes all the time (new route added to subapp doesn't require redeploy of container)
+- we might need to show 2 or more micro FE at same time (this can occur if we have some sidebar nav built as seperate micro FE)
+- we want to use off-the shelf routing solution (means already existing ones)
+- we need navigation in subapps in both isolation and hosted mode (so that dev is easy)
+- if different apps need to communicate info about routing it should be in a generic way (as different app might be using different navigation framework, changing/upgrading navigation library shouldn't require app rewrite)
 
-
+History is (object to get & set the current path user is visiting) and router is (shows different content based on path). History is of 3 types. Browser History (everything after domain like xyz.com/abc/def), hash history (everything after hash like xyz.com#/abc/def), memory/abstract history (keep track of current path in memory)
+- Common way is to use browser history in HOST app and memory history in REMOTE apps. If used browser history in both remote & host and then the url changes at same time so race condition occur and it might cause some issues.
 
 
 
