@@ -75,8 +75,7 @@ History is (object to get & set the current path user is visiting) and router is
 
 - for handling auth there are 2 approaches each app is aware of auth and other is to centralise auth in container so second is better as it has less code duplicacy.
 
-
-
+- getting access to browserHistory using <BrowserRouter> tag is tough so we should use <Router> tag with createBrowserHistory().
 
 ___________
 
