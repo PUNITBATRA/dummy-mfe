@@ -77,6 +77,24 @@ History is (object to get & set the current path user is visiting) and router is
 
 - getting access to browserHistory using <BrowserRouter> tag is tough so we should use <Router> tag with createBrowserHistory().
 
+- cleanup functions can be as -
+return () => {
+      ReactDOM.unmountComponentAtNode(current)
+      <!-- OR -> history.listen(onParentNavigate); -->
+    }
+
+--
+
+With CRA ->
+- Create CRA for host & remote app.
+- in pkg.json start as webpack serve & create webpack config file, index.js, bootstrap.js and usual ModuleFederationPlugin setup for host & remote.
+- we can create pkg.json for running all remote & host together at parent level.
+
+
+
+
+
+
 ___________
 
 https://micro-frontends.org/
