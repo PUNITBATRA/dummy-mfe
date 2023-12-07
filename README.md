@@ -14,7 +14,7 @@ index.html file of remote apps is not used while production only host app index.
 Shared modules ->
 container fetches remoteEntryjs file from both products & cart and notices both require x pkg so container can load only 1 copy from either of them and single copy is made available to both products & cart. so use 'shared' but then isolated apps won't work becoz in index.js we are importing so async issue same as bootstrap.js.
 if different versions of module used then even after shared both will load seperately. (major or etc basically module federation plugin compares as per ^/~ used in pkg.json)
-if instead of shared: ['faker'] we use object with add singleton true for loading 1 copy of module only no matter what. (show warning if different version specified)
+if instead of shared: ['faker'] we use object with add singleton true for loading 1 copy of module only no matter what. (show warning if different version specified) and if we use strictVersion true then shows error not warning.
 
 We are using id in index.html to render the app in REMOTE and same ids in HOST but if teams are in isolation it's not possible so in webpack config directly use bootstrap instead of index and use mount function kinda import export to solve that issue. Also for running in isolation we can add the condition.
 id in index.html and webpack config name should not be same like cart, products etc becoz it creates that as var in remoteEntry file and we have same name id also in index.html hence error.
@@ -107,3 +107,63 @@ single-spa - A javascript router for front-end microservices
 Deployment types ->
 Blue-green - check if working in production move whole 100% traffic to new release
 canary releases - 33% to old version & 66% to new version or so.
+
+Import maps provides low level building blocks. So by combining maps with Module federation we can build Native Federation (tooling agnostic) plugin kinda.
+Module federation plugin works with webpack so now to make it browser native approach means with other bundlers import maps is coming as the next evolution step.So now for reimplementing module federation with import maps we need 3 things as Metadata (providing at compile time, loading at runtime), Bundling (remote, shared pkgs, angular compiler), import map (generate using metadata, scopes for version mismatches). This native ways works with Ecmascript module provided frameworks mainly for react etc it might be not that well..
+
+So iframes not needed as MicroFE is there ?? -> No, if u still need good isolation iframe is the way to go.
+
+Monolithic issues ->
+Scaling gets costly, Changes often introduce errors, many people in one repo, rules & processes to avoid chaos.
+How deep is your microfrontend? 
+
+Pros of depth -
+- Frontend only - Technology Independence (YES), Parallel Frontend Development (YES), Continuous Delivery (No- Dependency on BE etc), Autonomy level/waiting for others (need to Wait), Time to market (bicycle)
+- Frontend + Backend (BFF- Data gathering) - Technology Independence (YES), Parallel Frontend Development (YES), Continuous Delivery (No- Dependency on BE etc).  Autonomy level/waiting for others (need to kind of Wait), Time to market (bike)
+- Frontend + Backend (Business logic also) - Technology Independence (YES), Parallel Frontend Development (YES), Continuous Delivery (YES),  Autonomy level/waiting for others (No),  Time to market (super bike)
+- Frontend + Backend + Ops - Technology Independence (YES), Parallel Frontend Development (YES), Continuous Delivery (YES),  Autonomy level/waiting for others (No),  Time to market (car)
+- Full stack (Own ideas + test + learn)- Technology Independence (YES), Parallel Frontend Development (YES), Continuous Delivery (YES),  Autonomy level/waiting for others (No), Time to market (rocket)
+
+
+Cons of depth - 
+cross functional isn't easy, team has lot of responsibility, fullstack specialization needed, multiple small team needed 
+
+Prepare for growth can be in two ways ->
+1. start with n systems per team and split the teams if needed later like earlier 1 team working on 2 pages later 2 teams working on each seperately.
+2. design system to be divided later like 1 team working on 1 page now need to divide page into 2 parts among 2 teams.
+
+More systems = More integrations = More complexity
+
+Let's say chat bot has message feature then prepopulated products list etc came then file upload so if we keep working as microfrontends in the same chatbot it can be an issue as it's just 1 chat bot and later on bug we might need to debug so UX is also important.
+
+- Architecture principle for decoupling -> eventual consistency, async comm, no central coordination
+
+- How to split microfrontends ->
+by domain - sales team (checkout & payment page), recommendation team, customer team (new and returning customer pages)
+by sections - header, footer, nav
+by functionality - tiles, card, searchbox
+by pages - (Prefered)
+
+Pros/Cons of MFE ->
+independent team -> Pros- isolated teams, reduce need for coordination with other team. Cons- assume vertical ownership of teams (ex- Customer data and api), everybody follow same rule like security, css scoping, compliance.
+Code organisation -> Pros -CI/CD easier, less code to maintain. Cons- if shared app needed it become dumping ground, differnet version of pkg for the dependecy
+Release independence -> Pros- can release seperately, rollback without affecting whole app. Cons- if require link b/w apps so independece reduces.
+Test complexity reduces -> Pros- easy testing for small features. Cons- updating 1 app doesn't mean it won't break others, will take more time to architect the solution such that app independence is there.
+Faster build times -> Pros- faster builds. Cons- multiple apps changes require multiple builds so overall more time.
+Tech independence -> Pros- upgrade pkg easily, tech choose easily. Cons- multiple frameworks on one screen can crash device, can become complex (like more memory used for multiple frameworks) which lead to poor performance.
+
+Tools, Patterns and frameworks ->
+Mosaic -> address the breakdown of monolithic ui using fragments that are composed together at runtime
+Module federation 
+Single-spa -> use multiple framework on one page, support lazy loading
+EEV -> event emitter for js, very small, 0 dependency, base app creates shared event folder, micro apps would publish events to this listener
+NGINX -> use nginx as a webserver or reverse proxy to serve static content, route appropiate micro app based on path, better suited when there is navigation or app divided by features
+iframe -> better when all functionality is on one page, require more isolation, communicate through dom, require iframe security to prevent iframe jacking
+Custom orchestrator -> write your own tool to handle microfrontend orchestration
+
+Testing ->
+each app should have their own test suites, functional test b/w microapps happens at base level, keep tests focused on integration not business functionality, base test should only cover what isn't tested already 
+Error handling ->
+seperately for each app and error logging using splunk etc.
+
+ 
